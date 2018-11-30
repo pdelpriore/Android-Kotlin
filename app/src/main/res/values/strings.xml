@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">weathR</string>
+
+    <!-- Error -->
+    <string name="error_retry">Réessayer</string>
+    <string name="no_network">Pas de connexion réseau</string>
+    <string name="nomDeVille">Saisissez le nom de la ville</string>
+    <string name="nombreDeJours">Saisissez le nombre de jours</string>
+    <string name="connectivity_problem">Votre terminal n\'est actuellement pas connecté à Internet, ou bien votre
+    connexion est très mauvaise.
+  </string>
+    <string name="unavailable_item">Impossible de récupérer correctement l\'élément\u00A0: cet écran ne peut être affiché
+    correctement, désolé.
+  </string>
+
+    <!-- Home Menu -->
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_about">À Propos</string>
+
+    <!-- Parameters -->
+    <string name="settings_city">Ville</string>
+    <string name="settings_forecasts_number">Nombre de jours</string>
+
+    <!-- Weather -->
+    <string name="weather_temperature">%1$d\u00B0</string>
+    <string name="weather_temperature_min_title">Température min.</string>
+    <string name="weather_temperature_max_title">Température max.</string>
+    <string name="weather_temperature_uv_title">Index UV</string>
+    <string name="weather_temperature_wind_title">Vent</string>
+    <string name="weather_wind">%1$s / %2$d</string>
+    <string name="degree">°</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forecast_error">La météo est disponible entre 5 à 10 jours</string>
+    <string name="city_error">La météo pour %1$s n\'est pas disponible</string>
+    <string name="url_api">https://smartnsoft.com/shared/weather/index.php?city=%1$s&amp;forecasts=%2$s</string>
+
+</resources>

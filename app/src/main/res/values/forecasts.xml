@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <array name="forecastImages">
+    <item>@drawable/sunny</item>
+    <item>@drawable/scattered_clouds</item>
+    <item>@drawable/rainy</item>
+    <item>@drawable/snowy</item>
+    <item>@drawable/stormy</item>
+  </array>
+
+</resources>

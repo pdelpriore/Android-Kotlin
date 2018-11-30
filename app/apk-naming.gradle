@@ -1,0 +1,5 @@
+android.applicationVariants.all { variant ->
+  variant.outputs.all { output ->
+    outputFileName = "${project.name}-${variant.name}-${variant.versionName}.apk"
+  }
+}
