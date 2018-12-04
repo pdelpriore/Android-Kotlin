@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment.MenuFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
     <ImageView
         android:id="@+id/menu_settings"
         android:layout_width="wrap_content"

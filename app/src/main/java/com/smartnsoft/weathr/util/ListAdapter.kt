@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -21,7 +22,7 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListAdapter (val myDataset: List<Forecast>, val context: Context) : RecyclerView.Adapter<ListAdapter.ViewHolder>(), Serializable {
+class ListAdapter (val myDataset: List<Forecast>, val context: Context) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
@@ -52,13 +53,16 @@ class ListAdapter (val myDataset: List<Forecast>, val context: Context) : Recycl
 
         holder.viewItem.setBackgroundColor(ContextCompat.getColor(context, Weather.getColorByType(myDataset[position].type)))
 
-        holder.itemDate.text = date
+        holder.itemDate.text = date.capitalize()
         holder.image.setImageResource(Weather.getPictureByName(myDataset[position].type))
         holder.itemTemp.text = myDataset.get(position).temperatureMax.toString() + context.getString(R.string.degree)
 
         holder.viewItem.setOnClickListener { v ->
 
-            val intent = Intent(context, DetailActivity::class.java).putExtra("myDataSet", myDataset[position].type as Serializable)
+            val dataset = myDataset[position]
+
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("ForecastExtra", dataset)
 
             context.startActivity(intent)
         }

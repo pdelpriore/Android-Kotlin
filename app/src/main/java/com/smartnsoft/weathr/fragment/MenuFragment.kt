@@ -19,10 +19,17 @@ import java.lang.RuntimeException
 class MenuFragment : Fragment() {
 
     var listener: FragmentMenuListener? = null
+    var listenerCity: FragmentMenuCityNameListener? = null
 
     interface FragmentMenuListener {
 
         fun getDataApi(dataWthrApi: Data?)
+
+    }
+
+    interface FragmentMenuCityNameListener {
+
+        fun getCityName(cityName: String?)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +79,8 @@ class MenuFragment : Fragment() {
 
                             var dataWthrApi: Data?
 
+                            var cityName: String?
+
                             FetchData.fetchDataApi(requireContext(), city, forecast.toString(), object : FetchData.DataFetchCallback {
 
                                 override fun onDataFetched(data: Data?) {
@@ -82,9 +91,13 @@ class MenuFragment : Fragment() {
 
                                     ville.text = city.capitalize()
 
+                                    cityName = city.capitalize()
+
                                     dataWthrApi?.apply {
                                         listener?.getDataApi(this)
                                     }
+
+                                    cityName?.apply { listenerCity?.getCityName(this) }
                                 }
                             })
 
