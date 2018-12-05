@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.smartnsoft.weathr.DetailActivity
 import com.smartnsoft.weathr.R
+import com.smartnsoft.weathr.model.Data
 import com.smartnsoft.weathr.model.Forecast
 import com.smartnsoft.weathr.model.Weather
 import kotlinx.android.synthetic.main.list_item.view.*
@@ -22,7 +23,7 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ListAdapter (val myDataset: List<Forecast>, val context: Context) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class ListAdapter (val myDataset: Data?, val context: Context) : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
@@ -36,7 +37,7 @@ class ListAdapter (val myDataset: List<Forecast>, val context: Context) : Recycl
 
     override fun getItemCount(): Int {
 
-        return myDataset.size
+        return myDataset?.forecasts?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,22 +48,28 @@ class ListAdapter (val myDataset: List<Forecast>, val context: Context) : Recycl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val parsedDate = dateFormat.parse(myDataset[position].date)
+        val parsedDate = dateFormat.parse(myDataset?.forecasts?.get(position)?.date)
 
         val date = SimpleDateFormat("EEEE dd MMMM", Locale.FRANCE).format(parsedDate)
 
-        holder.viewItem.setBackgroundColor(ContextCompat.getColor(context, Weather.getColorByType(myDataset[position].type)))
+        holder.viewItem.setBackgroundColor(ContextCompat.getColor(context, Weather.getColorByType(myDataset?.forecasts?.get(position)?.type)))
 
         holder.itemDate.text = date.capitalize()
-        holder.image.setImageResource(Weather.getPictureByName(myDataset[position].type))
-        holder.itemTemp.text = myDataset.get(position).temperatureMax.toString() + context.getString(R.string.degree)
+        holder.image.setImageResource(Weather.getPictureByName(myDataset?.forecasts?.get(position)?.type))
+
+        val itemTemp = myDataset?.forecasts?.get(position)?.temperatureMax.toString()
+
+        holder.itemTemp.text = context.getString(R.string.degree, itemTemp)
 
         holder.viewItem.setOnClickListener { v ->
 
-            val dataset = myDataset[position]
+            val  city = myDataset?.city
+
+            val listForecast = myDataset?.forecasts?.get(position)
 
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("ForecastExtra", dataset)
+            intent.putExtra("CityExtra", city)
+            intent.putExtra("ForecastExtra", listForecast)
 
             context.startActivity(intent)
         }

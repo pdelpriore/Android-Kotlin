@@ -12,7 +12,7 @@ enum class Weather (val type: String, val picture: Int, val color: Int) {
 
     companion object {
 
-        fun getPictureByName (type: String) : Int =
+        fun getPictureByName (type: String?) : Int =
 
                 when (type) {
 
@@ -25,7 +25,7 @@ enum class Weather (val type: String, val picture: Int, val color: Int) {
                     else -> -1
                 }
 
-        fun getColorByType (type: String) : Int =
+        fun getColorByType (type: String?) : Int =
 
                when (type) {
 

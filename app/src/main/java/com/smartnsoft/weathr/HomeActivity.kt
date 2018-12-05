@@ -12,6 +12,7 @@ import com.smartnsoft.weathr.model.Data
 import com.smartnsoft.weathr.util.FetchData
 import com.smartnsoft.weathr.util.ListAdapter
 import com.smartnsoft.weathr.util.Network
+import com.smartnsoft.weathr.util.Preference
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -24,6 +25,11 @@ class HomeActivity : AppCompatActivity() {
         toolbar.title = ""
 
         setSupportActionBar(toolbar)
+
+        val cityPreference: String? = Preference.getCity(this)
+        val forecastPreference: String? = Preference.getForecasts(this)
+
+        this.onStartApp(cityPreference ?: "", forecastPreference ?: "")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -41,6 +47,31 @@ class HomeActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun onStartApp(city: String, forecast: String) {
+
+        FetchData.fetchDataApi(this, city, forecast, object : FetchData.DataFetchCallback {
+
+            override fun onDataFetched(data: Data?) {
+
+                toolbarCustomTitle.text = city.capitalize()
+
+                val viewAdapter = ListAdapter(data, this@HomeActivity)
+                val viewManager = LinearLayoutManager(this@HomeActivity)
+
+                recycler_list_item.apply {
+
+                    setHasFixedSize(true)
+
+                    layoutManager = viewManager
+
+                    adapter = viewAdapter
+
+                }
+
+            }
+        })
     }
 
     private fun openSettings() {
@@ -81,13 +112,16 @@ class HomeActivity : AppCompatActivity() {
 
                     if (forecast in 5..10) {
 
+                        Preference.setCity(this, city)
+                        Preference.setForecasts(this, forecast.toString())
+
                         FetchData.fetchDataApi(this, city, forecast.toString(), object : FetchData.DataFetchCallback {
 
                             override fun onDataFetched(data: Data?) {
 
                                 toolbarCustomTitle.text = city.capitalize()
 
-                                val viewAdapter = ListAdapter(data?.forecasts ?: ArrayList(), this@HomeActivity)
+                                val viewAdapter = ListAdapter(data, this@HomeActivity)
                                 val viewManager = LinearLayoutManager(this@HomeActivity)
 
                                 recycler_list_item.apply {
