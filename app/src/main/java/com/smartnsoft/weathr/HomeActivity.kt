@@ -3,7 +3,9 @@ package com.smartnsoft.weathr
 import android.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -29,7 +31,16 @@ class HomeActivity : AppCompatActivity() {
         val cityPreference: String? = Preference.getCity(this)
         val forecastPreference: String? = Preference.getForecasts(this)
 
-        this.onStartApp(cityPreference ?: "", forecastPreference ?: "")
+        this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+
+        swipe.setOnRefreshListener {
+
+            this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+
+            swipe.isRefreshing = false
+
+            Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -44,6 +55,19 @@ class HomeActivity : AppCompatActivity() {
         when (item?.itemId) {
 
             R.id.toolbarSettings -> openSettings()
+            R.id.refresh -> {
+
+                val cityPreference: String? = Preference.getCity(this)
+                val forecastPreference: String? = Preference.getForecasts(this)
+
+                swipe.isRefreshing = true
+
+                this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+
+                Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+
+                swipe.isRefreshing = false
+            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -67,9 +91,7 @@ class HomeActivity : AppCompatActivity() {
                     layoutManager = viewManager
 
                     adapter = viewAdapter
-
                 }
-
             }
         })
     }
@@ -131,9 +153,7 @@ class HomeActivity : AppCompatActivity() {
                                     layoutManager = viewManager
 
                                     adapter = viewAdapter
-
                                 }
-
                             }
                         })
 
@@ -149,6 +169,7 @@ class HomeActivity : AppCompatActivity() {
                     Toast.makeText(this, textCity, Toast.LENGTH_SHORT).show()
                 }
         }
+
         builder?.create()?.show()
     }
 }
