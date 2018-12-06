@@ -1,9 +1,7 @@
 package com.smartnsoft.weathr
-
 import android.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
@@ -35,11 +33,16 @@ class HomeActivity : AppCompatActivity() {
 
         swipe.setOnRefreshListener {
 
+            val cityPreference: String? = Preference.getCity(this)
+            val forecastPreference: String? = Preference.getForecasts(this)
+
+            swipe.isRefreshing = true
+
             this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
 
-            swipe.isRefreshing = false
-
             Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+
+            swipe.isRefreshing = false
         }
     }
 
@@ -136,6 +139,10 @@ class HomeActivity : AppCompatActivity() {
 
                         Preference.setCity(this, city)
                         Preference.setForecasts(this, forecast.toString())
+
+                        var preferences = Preference.getPreference(this).all
+
+                        preferences.forEach {  it -> Log.d("PREFER", it.toString()) }
 
                         FetchData.fetchDataApi(this, city, forecast.toString(), object : FetchData.DataFetchCallback {
 
