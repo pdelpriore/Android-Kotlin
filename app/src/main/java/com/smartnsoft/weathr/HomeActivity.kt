@@ -1,5 +1,6 @@
 package com.smartnsoft.weathr
 import android.app.AlertDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -26,23 +27,43 @@ class HomeActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        val cityPreference: String? = Preference.getCity(this)
-        val forecastPreference: String? = Preference.getForecasts(this)
+        if (Network.isNetworkAvailable(this) == false) {
 
-        this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+            val noNetwork = getString(R.string.no_network)
 
-        swipe.setOnRefreshListener {
+            Toast.makeText(this, noNetwork, Toast.LENGTH_SHORT).show()
+
+        } else {
 
             val cityPreference: String? = Preference.getCity(this)
             val forecastPreference: String? = Preference.getForecasts(this)
 
-            swipe.isRefreshing = true
-
             this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+        }
 
-            Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+        swipe.setOnRefreshListener {
 
-            swipe.isRefreshing = false
+            if (Network.isNetworkAvailable(this) == false) {
+
+                val noNetwork = getString(R.string.no_network)
+
+                Toast.makeText(this, noNetwork, Toast.LENGTH_SHORT).show()
+
+                swipe.isRefreshing = false
+
+            } else {
+
+                val cityPreference: String? = Preference.getCity(this)
+                val forecastPreference: String? = Preference.getForecasts(this)
+
+                swipe.isRefreshing = true
+
+                this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+
+                Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+
+                swipe.isRefreshing = false
+            }
         }
     }
 
@@ -58,19 +79,33 @@ class HomeActivity : AppCompatActivity() {
         when (item?.itemId) {
 
             R.id.toolbarSettings -> openSettings()
+
             R.id.refresh -> {
 
-                val cityPreference: String? = Preference.getCity(this)
-                val forecastPreference: String? = Preference.getForecasts(this)
+                if (Network.isNetworkAvailable(this) == false) {
 
-                swipe.isRefreshing = true
+                    val noNetwork = getString(R.string.no_network)
 
-                this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+                    Toast.makeText(this, noNetwork, Toast.LENGTH_SHORT).show()
 
-                Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+                    swipe.isRefreshing = false
 
-                swipe.isRefreshing = false
+                } else {
+
+                    val cityPreference: String? = Preference.getCity(this)
+                    val forecastPreference: String? = Preference.getForecasts(this)
+
+                    swipe.isRefreshing = true
+
+                    this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
+
+                    Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+
+                    swipe.isRefreshing = false
+                }
             }
+
+            R.id.toolbarAbout -> about()
         }
 
         return super.onOptionsItemSelected(item)
@@ -140,10 +175,6 @@ class HomeActivity : AppCompatActivity() {
                         Preference.setCity(this, city)
                         Preference.setForecasts(this, forecast.toString())
 
-                        var preferences = Preference.getPreference(this).all
-
-                        preferences.forEach {  it -> Log.d("PREFER", it.toString()) }
-
                         FetchData.fetchDataApi(this, city, forecast.toString(), object : FetchData.DataFetchCallback {
 
                             override fun onDataFetched(data: Data?) {
@@ -178,5 +209,12 @@ class HomeActivity : AppCompatActivity() {
         }
 
         builder?.create()?.show()
+    }
+
+    private fun about() {
+
+        val intent = Intent(this, AboutActivity::class.java)
+
+        startActivity(intent)
     }
 }
