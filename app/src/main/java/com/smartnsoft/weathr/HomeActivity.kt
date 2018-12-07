@@ -59,7 +59,10 @@ class HomeActivity : AppCompatActivity() {
 
                 this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
 
-                Toast.makeText(this, "La météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+                if (cityPreference != null && forecastPreference != null) {
+
+                    Toast.makeText(this, "La météo pour ${cityPreference.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+                }
 
                 swipe.isRefreshing = false
             }
@@ -98,7 +101,11 @@ class HomeActivity : AppCompatActivity() {
 
                     this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
 
-                    Toast.makeText(this, "La météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+                    if (cityPreference != null && forecastPreference != null) {
+
+                        Toast.makeText(this, "La météo pour ${cityPreference.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+
+                    }
 
                     swipe.isRefreshing = false
                 }
