@@ -1,8 +1,11 @@
 package com.smartnsoft.weathr
 
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : AppCompatActivity() {
@@ -38,5 +41,12 @@ class AboutActivity : AppCompatActivity() {
         refresh?.setVisible(false)
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    fun openUrl (view: View) {
+
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.smartnsoft.com"))
+
+        startActivity(browserIntent)
     }
 }

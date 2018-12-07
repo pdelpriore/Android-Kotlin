@@ -1,9 +1,11 @@
 package com.smartnsoft.weathr
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.Menu
+import android.view.MenuItem
 import com.smartnsoft.weathr.model.Forecast
 import com.smartnsoft.weathr.model.Weather
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -59,10 +61,29 @@ class DetailActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.toolbar, menu)
 
         val toolbarSettings = menu?.findItem(R.id.toolbarSettings)
+        val toolbarRefresh = menu?.findItem(R.id.refresh)
 
         toolbarSettings?.setVisible(false)
+        toolbarRefresh?.setVisible(false)
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item?.itemId) {
+
+            R.id.toolbarAbout -> about()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun about() {
+
+        val intent = Intent(this, AboutActivity::class.java)
+
+        startActivity(intent)
     }
 
 }
