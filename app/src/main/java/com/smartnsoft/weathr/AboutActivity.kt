@@ -21,6 +21,13 @@ class AboutActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        url.setOnClickListener {
+
+            val intent = Intent(this, WebViewActivity::class.java)
+
+            startActivity(intent)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -41,12 +48,5 @@ class AboutActivity : AppCompatActivity() {
         refresh?.setVisible(false)
 
         return super.onCreateOptionsMenu(menu)
-    }
-
-    fun openUrl (view: View) {
-
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.smartnsoft.com"))
-
-        startActivity(browserIntent)
     }
 }
