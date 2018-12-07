@@ -19,14 +19,13 @@ class DetailActivity : AppCompatActivity() {
 
         val cityExtra = intent.getStringExtra("CityExtra")
 
-        toolbarDetail.title = ""
-
         toolbarDetailCustomTitle.text = cityExtra.capitalize()
 
         setSupportActionBar(toolbarDetail)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val dataset : Forecast = intent.getSerializableExtra("ForecastExtra") as Forecast
 
@@ -39,19 +38,13 @@ class DetailActivity : AppCompatActivity() {
 
         detailsActivity.setBackgroundColor(ContextCompat.getColor(this, Weather.getColorByType(dataset.type)))
 
-        val tempMax = dataset.temperatureMax.toString()
-        val tempMin2 = dataset.temperatureMin.toString()
-        val tempMax2 = dataset.temperatureMax.toString()
-        val ventDir = dataset.windDirection
-        val ventSpeed = dataset.windSpeed.toString()
-
-        detailsTemp.text = this.getString(R.string.tempMax, tempMax)
-        detailsTempMin2.text = this.getString(R.string.tempMin2, tempMin2)
-        detailsTempMax2.text = this.getString(R.string.tempMax2, tempMax2)
+        detailsTemp.text = this.getString(R.string.tempMax, dataset.temperatureMax)
+        detailsTempMin2.text = this.getString(R.string.tempMin2, dataset.temperatureMin)
+        detailsTempMax2.text = this.getString(R.string.tempMax2, dataset.temperatureMax)
 
         detailsUV2.text = dataset.uvIndex.toString()
 
-        detailsVent2.text = this.getString(R.string.wind, ventDir, ventSpeed)
+        detailsVent2.text = this.getString(R.string.wind, dataset.windDirection, dataset.windSpeed)
     }
 
     override fun onSupportNavigateUp(): Boolean {

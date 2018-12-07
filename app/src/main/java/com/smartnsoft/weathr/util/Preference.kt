@@ -4,9 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
-public class Preference {
+object Preference {
 
-    companion object {
 
         val CITY_NAME = "city"
         val FORECASTS = "forecasts"
@@ -35,5 +34,4 @@ public class Preference {
 
             return getPreference(context).getString(FORECASTS, null)
         }
-    }
 }

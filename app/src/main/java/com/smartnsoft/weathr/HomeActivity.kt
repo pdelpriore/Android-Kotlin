@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -60,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
 
                 this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
 
-                Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "La météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
 
                 swipe.isRefreshing = false
             }
@@ -99,7 +98,7 @@ class HomeActivity : AppCompatActivity() {
 
                     this.onStartApp(cityPreference ?: "paris", forecastPreference ?: "10")
 
-                    Toast.makeText(this, "Météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "La météo pour ${cityPreference?.capitalize()} est mise à jour", Toast.LENGTH_SHORT).show()
 
                     swipe.isRefreshing = false
                 }
@@ -135,6 +134,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun openSettings() {
+
         val builder: AlertDialog.Builder? = this.let {
             AlertDialog.Builder(it)
         }

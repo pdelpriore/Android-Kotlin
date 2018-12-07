@@ -57,7 +57,7 @@ class ListAdapter (val myDataset: Data?, val context: Context) : RecyclerView.Ad
         holder.itemDate.text = date.capitalize()
         holder.image.setImageResource(Weather.getPictureByName(myDataset?.forecasts?.get(position)?.type))
 
-        val itemTemp = myDataset?.forecasts?.get(position)?.temperatureMax.toString()
+        val itemTemp = myDataset?.forecasts?.get(position)?.temperatureMax
 
         holder.itemTemp.text = context.getString(R.string.degree, itemTemp)
 

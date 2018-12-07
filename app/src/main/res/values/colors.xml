@@ -12,5 +12,6 @@
     <color name="idontknow">#FFB73C</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="border">#383838</color>
 
 </resources>
