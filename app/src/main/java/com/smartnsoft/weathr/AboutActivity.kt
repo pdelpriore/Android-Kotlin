@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import com.smartnsoft.weathr.model.MyBrowser
 import kotlinx.android.synthetic.main.activity_about.*
+import kotlinx.android.synthetic.main.activity_web_view.*
 
 class AboutActivity : AppCompatActivity() {
 
@@ -22,7 +24,11 @@ class AboutActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        url.setOnClickListener {
+        aboutWebViewer.webViewClient = MyBrowser()
+        aboutWebViewer.loadUrl("file:///android_asset/about.html")
+        aboutWebViewer.settings.javaScriptEnabled = true
+
+        aboutWebViewer.setOnClickListener {
 
             val intent = Intent(this, WebViewActivity::class.java)
 
